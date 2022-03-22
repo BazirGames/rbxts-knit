@@ -3,7 +3,7 @@
 	"version": "0.0.21-alpha.0",
 	"description": "Roblox game framework (Alpha)",
 	"main": "Knit/init.lua",
-	"typings": "Knit/index.d.ts",
+	"typings": "typings/index.d.ts",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/osyrisrblx/rbxts-knit.git"

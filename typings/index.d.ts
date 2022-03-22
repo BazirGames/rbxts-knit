@@ -1,7 +1,13 @@
 declare global {
 	interface KnitServices {}
 	interface KnitControllers {}
+	interface KnitSettings {
+		ServicePromises: boolean
+	}
 }
+
+export type SIGNAL_MARKER = {}
+export type PROPERTY_MARKER = {}
 
 /**
  * A service is a singleton object that serves a specific purpose on the server.
@@ -52,21 +58,3 @@ export type Controller<T> = T & {
 
 export { default as KnitClient } from "./KnitClient";
 export { default as KnitServer } from "./KnitServer";
-
-export { default as RemoteProperty } from "./Util/Remote/RemoteProperty";
-export { default as RemoteSignal } from "./Util/Remote/RemoteSignal";
-export { default as ClientRemoteProperty } from "./Util/Remote/ClientRemoteProperty";
-export { default as ClientRemoteSignal } from "./Util/Remote/ClientRemoteSignal";
-
-export { default as Component } from "./Util/Component";
-export { default as Janitor } from "./Util/Janitor";
-export { default as Loader } from "./Util/Loader";
-export { default as Option } from "./Util/Option";
-export { default as Promise } from "./Util/Promise";
-export { default as Ser } from "./Util/Ser";
-export { default as Signal } from "./Util/Signal";
-export { default as Streamable } from "./Util/Streamable";
-export { default as StreamableUtil } from "./Util/StreamableUtil";
-export { default as Symbol } from "./Util/Symbol";
-export { default as TableUtil } from "./Util/TableUtil";
-export { default as Timer } from "./Util/Timer";

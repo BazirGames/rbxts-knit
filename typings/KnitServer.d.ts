@@ -1,3 +1,5 @@
+import { PROPERTY_MARKER } from ".";
+import { SIGNAL_MARKER } from ".";
 import { Service } from "..";
 
 interface KnitServer {
@@ -17,22 +19,6 @@ interface KnitServer {
 	 * Wait until the `KnitStart` stage to start using them (e.g. calling methods and events).
 	 */
 	readonly Services: KnitServices;
-
-	/**
-	 * A folder containing utility modules used by Knit, but also accessible for developers to use.
-	 *
-	 * This folder contains the following modules:
-	 * * Janitor
-	 * * Event
-	 * * Promise
-	 * * Thread
-	 *
-	 * They can be required like any other module:
-	 * ```lua
-	 * local Signal = require(Knit.Util.Signal)
-	 * ```
-	 */
-	readonly Util: Folder;
 
 	/**
 	 * Start Knit. This returns a promise which resolves once all services or controllers are fully initialized and
@@ -127,6 +113,9 @@ interface KnitServer {
 	readonly AddServicesDeep: (folder: Instance) => void;
 
 	readonly GetService: <T extends keyof KnitServices>(serviceName: T) => KnitServices[T];
+
+	readonly CreateSignal: () => [SIGNAL_MARKER];
+	readonly CreateProperty: <T>(initialValue: T) => [PROPERTY_MARKER, T];
 }
 
 declare const KnitServer: KnitServer;
