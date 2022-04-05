@@ -13,8 +13,9 @@ type PromisifyFunction<T> = T extends Method
 	: T;
 
 type PromisifyService<T> = {
-	[K in ExtractKeys<T, Method> & string as `${K}Promise`]: PromisifyFunction<T[K]>;
+	[K in keyof T]: PromisifyFunction<T[K]>;
 };
+type FunctionfyService<T> = { [K in keyof T]: MapValueToClient<T[K]> };
 
 type MapValueToClient<T> = T extends Method
 	? OmitFirstArg<T>
@@ -24,10 +25,10 @@ type MapValueToClient<T> = T extends Method
 	? ClientRemoteSignal<U>
 	: never;
 
-type MapServiceToClient<T> = { [K in keyof T]: MapValueToClient<T[K]> };
+type MapServiceToClient<T> = KnitSettings["ServicePromises"] extends false ? FunctionfyService<T> : PromisifyService<T>;
 
 /** A table that mirrors the methods and events that were exposed on the server via the Client table. */
-type ServiceMirror<T> = T extends Service<{}, infer C> ? MapServiceToClient<C> & PromisifyService<C> : never;
+type ServiceMirror<T> = T extends Service<{}, infer C> ?  MapServiceToClient<C> : never;
 
 interface KnitClient {
 	/**
