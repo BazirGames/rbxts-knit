@@ -1,9 +1,9 @@
 {
-	"name": "@rbxts/knit",
+	"name": "@rbxts/knit2",
 	"version": "0.0.21-alpha.0",
 	"description": "Roblox game framework (Alpha)",
-	"main": "src/Knit/init.lua",
-	"typings": "src/typings/index.d.ts",
+	"main": "src/init.lua",
+	"typings": "typings/index.d.ts",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/osyrisrblx/rbxts-knit.git"
