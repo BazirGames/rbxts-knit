@@ -1,6 +1,6 @@
 {
 	"name": "@bazir/knit",
-	"version": "0.0.21-alpha.0",
+	"version": "0.0.1-alpha.0",
 	"description": "Roblox game framework (Alpha)",
 	"main": "src/init.lua",
 	"typings": "typings/index.d.ts",

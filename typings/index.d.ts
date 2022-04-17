@@ -6,9 +6,6 @@ declare global {
 	}
 }
 
-export type SIGNAL_MARKER = {}
-export type PROPERTY_MARKER = {}
-
 /**
  * A service is a singleton object that serves a specific purpose on the server.
  */

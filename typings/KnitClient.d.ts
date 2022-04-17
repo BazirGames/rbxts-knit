@@ -1,4 +1,8 @@
-import { ClientRemoteProperty, ClientRemoteSignal, Controller, RemoteProperty, RemoteSignal, Service } from "..";
+import { Controller, Service } from "..";
+import ClientRemoteProperty from "./ClientRemoteProperty";
+import ClientRemoteSignal from "./ClientRemoteSignal";
+import RemoteProperty from "./RemoteProperty";
+import RemoteSignal from "./RemoteSignal";
 
 type GetThisType<T> = T extends (this: infer U, ...args: Array<any>) => any ? U : never;
 

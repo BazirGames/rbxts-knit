@@ -1,11 +1,5 @@
-import Signal from "../Signal";
-
-type ValueObjectClassNames = {
-	[K in keyof Instances]: K extends `${infer U}Value` ? K : never;
-}[keyof Instances];
-
+import Signal from "./Signal";
 interface RemoteProperty<T> {
-	Replicate(): void;
 	Set(value: T): void;
     SetTop(value: T): void;
     SetFilter(predicate: (player: Player, value: T) => boolean, value: T): void;
@@ -18,7 +12,7 @@ interface RemoteProperty<T> {
 }
 
 interface RemotePropertyConstructor {
-	new <T>(value: T, overrideClass?: ValueObjectClassNames): RemoteProperty<T>;
+	new <T>(value: T): RemoteProperty<T>;
 	readonly Is: (object: unknown) => object is RemoteProperty<unknown>;
 }
 

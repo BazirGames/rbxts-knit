@@ -1,6 +1,6 @@
-import { PROPERTY_MARKER } from ".";
-import { SIGNAL_MARKER } from ".";
 import { Service } from "..";
+import RemoteProperty from "./RemoteProperty";
+import RemoteSignal from "./RemoteSignal";
 
 interface KnitServer {
 	/**
@@ -114,8 +114,8 @@ interface KnitServer {
 
 	readonly GetService: <T extends keyof KnitServices>(serviceName: T) => KnitServices[T];
 
-	readonly CreateSignal: () => [SIGNAL_MARKER];
-	readonly CreateProperty: <T>(initialValue: T) => [PROPERTY_MARKER, T];
+	readonly CreateSignal: <T extends Callback = Callback>() => RemoteSignal<T>;
+	readonly CreateProperty: <T>(initialValue: T) => RemoteProperty<T>;
 }
 
 declare const KnitServer: KnitServer;
