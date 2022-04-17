@@ -10,13 +10,13 @@ Knit must be imported differently on the server and client.
 
 On the server-side, you should use:
 ```ts
-import { KnitServer as Knit } from "@rbxts/knit";
+import { KnitServer as Knit } from "@bazir/knit";
 // Use Knit
 ```
 
 On the client-side, you should use:
 ```ts
-import { KnitClient as Knit } from "@rbxts/knit";
+import { KnitClient as Knit } from "@bazir/knit";
 // Use Knit
 ```
 
@@ -49,7 +49,7 @@ You must describe your service as a single object with fields, events, methods, 
 Components should defined using `implements Component.ComponentClass`. Here's an example:
 
 ```ts
-import { Component, Janitor } from "@rbxts/knit";
+import { Component, Janitor } from "@bazir/knit";
 
 class Lava implements Component.ComponentClass {
     public static Tag = "Lava";
@@ -77,7 +77,7 @@ export = Lava;
 
 **`PointsService.ts`**
 ```ts
-import { KnitServer as Knit, Signal, RemoteProperty, RemoteSignal } from "@rbxts/knit";
+import { KnitServer as Knit, Signal, RemoteProperty, RemoteSignal } from "@bazir/knit";
 import { Players } from "@rbxts/services";
 
 declare global {
@@ -146,7 +146,7 @@ export = PointsService;
 
 **`test.client.ts`**
 ```ts
-import { KnitClient as Knit } from "@rbxts/knit";
+import { KnitClient as Knit } from "@bazir/knit";
 
 const PointsService = Knit.GetService("PointsService");
 
