@@ -2,18 +2,20 @@ import { Service } from "..";
 import RemoteProperty from "../RemoteProperty";
 import RemoteSignal from "../RemoteSignal";
 
-type ServerMiddlewareFn = (args: unknown[]) => LuaTuple<[shouldContinue: boolean, ...args: unknown[]]>;
+type ServerMiddlewareFn = (
+	args: unknown[]
+) => LuaTuple<[shouldContinue: boolean, ...args: unknown[]]>;
 
 type ServerMiddleware = ServerMiddlewareFn[];
 
 type Middleware = {
 	Inbound?: ServerMiddleware;
 	Outbound?: ServerMiddleware;
-}
+};
 
-export type KnitOptions= {
+export type KnitOptions = {
 	Middleware?: Middleware;
-}
+};
 
 interface KnitServer {
 	/**
@@ -99,7 +101,7 @@ interface KnitServer {
 	 * ```
 	 */
 	readonly CreateService: <T extends Partial<Service<{}, U>>, U>(
-		service: T & { Client?: ThisType<T["Client"] & { Server: T }> },
+		service: T & { Client?: ThisType<T["Client"] & { Server: T }> }
 	) => Service<T, U>;
 
 	/**
@@ -125,7 +127,9 @@ interface KnitServer {
 	 */
 	readonly AddServicesDeep: (folder: Instance) => void;
 
-	readonly GetService: <T extends keyof KnitServices>(serviceName: T) => KnitServices[T];
+	readonly GetService: <T extends keyof KnitServices>(
+		serviceName: T
+	) => KnitServices[T];
 
 	readonly CreateSignal: <T extends Callback = Callback>() => RemoteSignal<T>;
 	readonly CreateProperty: <T>(initialValue: T) => RemoteProperty<T>;

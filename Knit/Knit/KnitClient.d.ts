@@ -4,7 +4,9 @@ import ClientRemoteSignal from "../ClientRemoteSignal";
 import RemoteProperty from "../RemoteProperty";
 import RemoteSignal from "../RemoteSignal";
 
-type GetThisType<T> = T extends (this: infer U, ...args: Array<any>) => any ? U : never;
+type GetThisType<T> = T extends (this: infer U, ...args: Array<any>) => any
+	? U
+	: never;
 
 type Method = (this: defined, ...args: Array<any>) => any;
 
@@ -13,7 +15,9 @@ type OmitFirstArg<T> = T extends (firstArg: any, ...args: infer P) => infer R
 	: never;
 
 type PromisifyFunction<T> = T extends Method
-	? OmitFirstArg<(this: GetThisType<T>, ...args: Parameters<T>) => Promise<ReturnType<T>>>
+	? OmitFirstArg<
+		(this: GetThisType<T>, ...args: Parameters<T>) => Promise<ReturnType<T>>
+	>
 	: T;
 
 type PromisifyService<T> = {
@@ -32,16 +36,20 @@ type MapValueToClient<T> = T extends Method
 type MapServiceToClient<T> = { [K in keyof T]: MapValueToClient<T[K]> }; ///KnitSettings["ServicePromises"] extends false ? FunctionfyService<T> : PromisifyService<T>;
 
 /** A table that mirrors the methods and events that were exposed on the server via the Client table. */
-type ServiceMirror<T> = T extends Service<{}, infer C> ?  MapServiceToClient<C> : never;
+type ServiceMirror<T> = T extends Service<{}, infer C>
+	? MapServiceToClient<C>
+	: never;
 
-type ClientMiddlewareFn = (args: unknown[]) => LuaTuple<[shouldContinue: boolean, ...args: unknown[]]>;
+type ClientMiddlewareFn = (
+	args: unknown[]
+) => LuaTuple<[shouldContinue: boolean, ...args: unknown[]]>;
 
 type ClientMiddleware = ClientMiddlewareFn[];
 
 type Middleware = {
 	Inbound?: ClientMiddleware;
 	Outbound?: ClientMiddleware;
-}
+};
 
 export type KnitOptions = {
 	ServicePromises?: boolean;
@@ -49,7 +57,7 @@ export type KnitOptions = {
 	PerServiceMiddleware?: {
 		[service in keyof KnitServices]: Middleware;
 	};
-}
+};
 
 interface KnitClient {
 	/**
@@ -130,7 +138,9 @@ interface KnitClient {
 	 *
 	 * The provided `controller` table must contain a unique `Name` property.
 	 */
-	readonly CreateController: <T extends Partial<Controller<{}>>>(controller: T) => Controller<T>;
+	readonly CreateController: <T extends Partial<Controller<{}>>>(
+		controller: T
+	) => Controller<T>;
 
 	/**
 	 * Automatically creates new controllers from ModuleScripts found directly within `folder`.
@@ -170,14 +180,18 @@ interface KnitClient {
 	 * SomeService:DoSomethingPromise():Then(function() ... end)
 	 * ```
 	 */
-	readonly GetService: <T extends keyof KnitServices>(serviceName: T) => ServiceMirror<KnitServices[T]>;
+	readonly GetService: <T extends keyof KnitServices>(
+		serviceName: T
+	) => ServiceMirror<KnitServices[T]>;
 
 	/**
 	 * Returns a [controller](https://atollstudios.github.io/Knit/knitapi/#controller) with the given controller name. This
 	 * is just an alias for `Knit.Controllers[controllerName]` and only exists for developers who want to have the same
 	 * pattern used with `Knit.GetService`.
 	 */
-	readonly GetController: <T extends keyof KnitControllers>(controllerName: T) => KnitControllers[T];
+	readonly GetController: <T extends keyof KnitControllers>(
+		controllerName: T
+	) => KnitControllers[T];
 
 	/**
 	 * Reference to Players.LocalPlayer
