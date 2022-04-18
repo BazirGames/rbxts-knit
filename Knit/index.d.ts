@@ -1,9 +1,6 @@
 declare global {
 	interface KnitServices {}
 	interface KnitControllers {}
-	interface KnitSettings {
-		ServicePromises: boolean
-	}
 }
 
 /**
@@ -53,5 +50,5 @@ export type Controller<T> = T & {
 	KnitStart(): void;
 };
 
-export { default as KnitClient } from "./KnitClient";
-export { default as KnitServer } from "./KnitServer";
+export { default as KnitClient } from "./Knit/KnitClient";
+export { default as KnitServer } from "./Knit/KnitServer";

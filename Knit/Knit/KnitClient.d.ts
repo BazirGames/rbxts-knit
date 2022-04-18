@@ -1,8 +1,8 @@
 import { Controller, Service } from "..";
-import ClientRemoteProperty from "./ClientRemoteProperty";
-import ClientRemoteSignal from "./ClientRemoteSignal";
-import RemoteProperty from "./RemoteProperty";
-import RemoteSignal from "./RemoteSignal";
+import ClientRemoteProperty from "../ClientRemoteProperty";
+import ClientRemoteSignal from "../ClientRemoteSignal";
+import RemoteProperty from "../RemoteProperty";
+import RemoteSignal from "../RemoteSignal";
 
 type GetThisType<T> = T extends (this: infer U, ...args: Array<any>) => any ? U : never;
 
@@ -29,10 +29,27 @@ type MapValueToClient<T> = T extends Method
 	? ClientRemoteSignal<U>
 	: never;
 
-type MapServiceToClient<T> = KnitSettings["ServicePromises"] extends false ? FunctionfyService<T> : PromisifyService<T>;
+type MapServiceToClient<T> = { [K in keyof T]: MapValueToClient<T[K]> }; ///KnitSettings["ServicePromises"] extends false ? FunctionfyService<T> : PromisifyService<T>;
 
 /** A table that mirrors the methods and events that were exposed on the server via the Client table. */
 type ServiceMirror<T> = T extends Service<{}, infer C> ?  MapServiceToClient<C> : never;
+
+type ClientMiddlewareFn = (args: unknown[]) => LuaTuple<[shouldContinue: boolean, ...args: unknown[]]>;
+
+type ClientMiddleware = ClientMiddlewareFn[];
+
+type Middleware = {
+	Inbound?: ClientMiddleware;
+	Outbound?: ClientMiddleware;
+}
+
+export type KnitOptions = {
+	ServicePromises?: boolean;
+	Middleware?: Middleware;
+	PerServiceMiddleware?: {
+		[service in keyof KnitServices]: Middleware;
+	};
+}
 
 interface KnitClient {
 	/**
@@ -94,7 +111,7 @@ interface KnitClient {
 	 * It is important that errors are handled when starting Catch,
 	 * as any errors within the Init lifecycle will go undetected otherwise.
 	 */
-	readonly Start: () => Promise<void>;
+	readonly Start: (Options?: KnitOptions) => Promise<void>;
 
 	/**
 	 * Wait for Knit to start. This is useful if there are other scripts that need to access Knit services or

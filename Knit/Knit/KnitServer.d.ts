@@ -1,6 +1,19 @@
 import { Service } from "..";
-import RemoteProperty from "./RemoteProperty";
-import RemoteSignal from "./RemoteSignal";
+import RemoteProperty from "../RemoteProperty";
+import RemoteSignal from "../RemoteSignal";
+
+type ServerMiddlewareFn = (args: unknown[]) => LuaTuple<[shouldContinue: boolean, ...args: unknown[]]>;
+
+type ServerMiddleware = ServerMiddlewareFn[];
+
+type Middleware = {
+	Inbound?: ServerMiddleware;
+	Outbound?: ServerMiddleware;
+}
+
+export type KnitOptions= {
+	Middleware?: Middleware;
+}
 
 interface KnitServer {
 	/**
@@ -61,7 +74,7 @@ interface KnitServer {
 	 * It is important that errors are handled when starting Catch,
 	 * as any errors within the Init lifecycle will go undetected otherwise.
 	 */
-	readonly Start: () => Promise<void>;
+	readonly Start: (Options?: KnitOptions) => Promise<void>;
 
 	/**
 	 * Wait for Knit to start. This is useful if there are other scripts that need to access Knit services or
